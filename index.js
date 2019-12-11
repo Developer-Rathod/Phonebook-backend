@@ -31,3 +31,8 @@ let persons = [
 app.get('/api/persons', (request, response) => {
     response.json(persons)
   })
+app.get('/info', (request, response) =>{
+    const noOfPeople = persons.length;
+    const todayDate = new Date();
+    response.send(`<p> Ponebook has info of ${noOfPeople}</p><p> ${todayDate}</p>`)
+})  
