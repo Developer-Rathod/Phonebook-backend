@@ -67,12 +67,25 @@ const getRandomNumber = () =>{
 
 app.post('/api/persons',(request, response) => {
  const body = request.body
- if(!body.name && !body.number)
+ if(!body.name)
  {
    return response.status(400).json({
-     eroor:'Name and number missing'})
+     error:'Name is missing'})
  }
- else{
+ if(!body.number)
+ {
+   return response.status(400).json({
+     error:'Number is missing'})
+ }
+ const personExist = persons.find( person => person.name === body.name )
+ if(personExist)
+ {
+    return response.status(400).json({
+      error:'The name already exists in the phonebook'
+    })
+ }
+ 
+
    const person = {
      name:body.name,
      number:body.number,
@@ -81,5 +94,5 @@ app.post('/api/persons',(request, response) => {
    persons = persons.concat(person)
    console.log(person)
    response.json(person)
- }
+ 
 })
