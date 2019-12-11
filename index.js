@@ -1,9 +1,13 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const app = express();
 const PORT = 3001;
 app.listen(PORT,()=>{
     console.log(`Backend server start on port ${PORT}`);
 });
+// using middleware to parse body content in json format
+app.use(bodyParser.json())
+
 let persons = [
     {
         "name": "Arto Hellas",
@@ -55,4 +59,27 @@ app.delete('/api/persons/:id', (require, response)=>{
  persons = persons.filter( person => person.id !== id )
  //console.log(persons)
  response.status(204).end()
+})
+// 3.5 
+const getRandomNumber = () =>{
+   return Math.floor(Math.random(100) * Math.floor(100))
+}
+
+app.post('/api/persons',(request, response) => {
+ const body = request.body
+ if(!body.name && !body.number)
+ {
+   return response.status(400).json({
+     eroor:'Name and number missing'})
+ }
+ else{
+   const person = {
+     name:body.name,
+     number:body.number,
+     id: getRandomNumber(),
+   }
+   persons = persons.concat(person)
+   console.log(person)
+   response.json(person)
+ }
 })
