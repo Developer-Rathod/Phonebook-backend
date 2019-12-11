@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser')
+const morgan = require('morgan')
 const app = express();
 const PORT = 3001;
 app.listen(PORT,()=>{
@@ -7,6 +8,19 @@ app.listen(PORT,()=>{
 });
 // using middleware to parse body content in json format
 app.use(bodyParser.json())
+
+// using morgan middleware to log information
+app.use(morgan('tiny'))
+
+app.use(morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join('').push(JSON.stringify(req.body))
+}))
 
 let persons = [
     {
@@ -92,7 +106,7 @@ app.post('/api/persons',(request, response) => {
      id: getRandomNumber(),
    }
    persons = persons.concat(person)
-   console.log(person)
+   //console.log(person)
    response.json(person)
  
 })
