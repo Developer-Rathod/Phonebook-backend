@@ -36,3 +36,14 @@ app.get('/info', (request, response) =>{
     const todayDate = new Date();
     response.send(`<p> Ponebook has info of ${noOfPeople}</p><p> ${todayDate}</p>`)
 })  
+app.get('/api/persons/:id', (request, response)=>{
+ const id = Number(request.params.id); // converting string to number
+ const person = persons.find( person => person.id === id )
+ if(person){
+     console.log(person)
+     response.json(person)
+ }
+ else{
+     response.status(404).end()
+ }
+})
