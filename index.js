@@ -27,15 +27,17 @@ let persons = [
       }
     
 ]
-
+// 3.1 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
   })
+ // 3.2 
 app.get('/info', (request, response) =>{
     const noOfPeople = persons.length;
     const todayDate = new Date();
     response.send(`<p> Ponebook has info of ${noOfPeople}</p><p> ${todayDate}</p>`)
 })  
+// 3.3
 app.get('/api/persons/:id', (request, response)=>{
  const id = Number(request.params.id); // converting string to number
  const person = persons.find( person => person.id === id )
@@ -46,4 +48,11 @@ app.get('/api/persons/:id', (request, response)=>{
  else{
      response.status(404).end()
  }
+})
+// 3.4
+app.delete('/api/persons/:id', (require, response)=>{
+ const id = Number(request.params.id);
+ persons = persons.filter( person => person.id !== id )
+ //console.log(persons)
+ response.status(204).end()
 })
