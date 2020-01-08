@@ -1,18 +1,27 @@
+// run backend server by npm run watch
+// http://localhost:3001/api/persons
+
 const express = require('express');
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
+
 const app = express();
-const PORT = 3001;
+//const PORT = 3001;
+const PORT = process.env.PORT || 3001
 app.listen(PORT,()=>{
     console.log(`Backend server start on port ${PORT}`);
 });
+// using cors
+app.use(cors())
+
 // using middleware to parse body content in json format
 app.use(bodyParser.json())
 
 // using morgan middleware to log information
 app.use(morgan('tiny'))
 
-app.use(morgan(function (tokens, req, res) {
+/* app.use(morgan(function (tokens, req, res) {
   return [
     tokens.method(req, res),
     tokens.url(req, res),
@@ -21,7 +30,7 @@ app.use(morgan(function (tokens, req, res) {
     tokens['response-time'](req, res), 'ms'
   ].join('').push(JSON.stringify(req.body))
 }))
-
+ */
 let persons = [
     {
         "name": "Arto Hellas",
