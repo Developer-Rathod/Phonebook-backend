@@ -1,5 +1,6 @@
 // run backend server by npm run watch
 // http://localhost:3001/api/persons
+// https://kr-react-part3.herokuapp.com/api/persons
 
 const express = require('express');
 const bodyParser = require('body-parser')
@@ -14,6 +15,10 @@ app.listen(PORT,()=>{
 });
 // using cors
 app.use(cors())
+// To show static content, the page index.html from build folder for frontend, 
+//we have already copy build folder from frontend to backend on project root
+
+app.use(express.static('build'))
 
 // using middleware to parse body content in json format
 app.use(bodyParser.json())
